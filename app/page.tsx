@@ -50,9 +50,11 @@ export default function Home() {
 
       console.log('Making request to:', `${API_BASE}/attack`);
       console.log('FormData entries:');
-      for (let [key, value] of fd.entries()) {
+      // Convert FormData entries to array to avoid iteration issues
+      const entries = Array.from(fd.entries());
+      entries.forEach(([key, value]) => {
         console.log(`${key}:`, value);
-      }
+      });
 
       const res = await fetch(`${API_BASE}/attack`, {
         method: 'POST',
