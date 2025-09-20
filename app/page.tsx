@@ -1,7 +1,7 @@
-"use client";
+"use client"
 import React, { useState, useRef } from 'react';
 
-export default function App() {
+export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [epsilon, setEpsilon] = useState<number>(0.1);
@@ -10,7 +10,7 @@ export default function App() {
   const [result, setResult] = useState<any | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const API_BASE = 'https://c7erwbv7hsgrdy4yd6q7pblmh40thlde.lambda-url.eu-north-1.on.aws';
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://c7erwbv7hsgrdy4yd6q7pblmh40thlde.lambda-url.eu-north-1.on.aws';
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     setError(null);
@@ -48,17 +48,45 @@ export default function App() {
       fd.append('file', file, file.name);
       fd.append('epsilon', String(epsilon));
 
+      console.log('Making request to:', `${API_BASE}/attack`);
+      console.log('FormData entries:');
+      for (let [key, value] of fd.entries()) {
+        console.log(`${key}:`, value);
+      }
+
       const res = await fetch(`${API_BASE}/attack`, {
         method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+        },
         body: fd,
+      }).catch(fetchError => {
+        console.error('Fetch failed:', fetchError);
+        // Check if it's a CORS error
+        if (fetchError.message.includes('CORS') || fetchError.message.includes('cross-origin')) {
+          throw new Error('CORS error: The API server needs to allow requests from your domain. This is likely a server configuration issue.');
+        }
+        // Check if it's a network error
+        if (fetchError.message.includes('Failed to fetch') || fetchError.message.includes('NetworkError')) {
+          throw new Error('Network error: Cannot reach the API server. Check if the server is running and the URL is correct.');
+        }
+        throw fetchError;
       });
+
+      console.log('Response status:', res.status);
+      console.log('Response headers:', Object.fromEntries(res.headers.entries()));
 
       if (!res.ok) {
         const txt = await res.text();
+        console.log('Error response text:', txt);
         throw new Error(`Server returned ${res.status}: ${txt}`);
       }
 
       const payload = await res.json();
+      console.log('Success response:', payload);
+      
+      // adversarial_image_base64 is returned as a PNG base64 string
       const advB64 = payload.adversarial_image_base64;
       const advUrl = advB64 ? `data:image/png;base64,${advB64}` : null;
 
@@ -69,6 +97,7 @@ export default function App() {
         advUrl,
       });
     } catch (err: any) {
+      console.error('Attack error:', err);
       setError(err.message ?? String(err));
     } finally {
       setLoading(false);
@@ -151,10 +180,16 @@ export default function App() {
           </div>
         </div>
 
+        {/* API Status */}
+        <div className="mb-6 text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
+          API base: <code className="bg-gray-200 px-1 py-0.5 rounded font-mono">{API_BASE}</code>
+        </div>
+
         {/* Error */}
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
-            Error: {error}
+            <div className="font-medium">Error:</div>
+            <div className="mt-1 text-sm">{error}</div>
           </div>
         )}
 
@@ -219,21 +254,27 @@ export default function App() {
 
             {/* Side by side */}
             <div className="mt-8">
-              <h3 className="text-sm text-gray-600 mb-3">Side-by-side</h3>
+              <h3 className="text-sm text-gray-600 mb-3">Side-by-side Comparison</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="border rounded-lg p-3 bg-white flex items-center justify-center shadow-sm">
-                  {previewUrl ? (
-                    <img src={previewUrl} className="max-h-48" alt="orig large" />
-                  ) : (
-                    <span className="text-sm text-gray-400">No original</span>
-                  )}
+                <div className="text-center">
+                  <div className="text-xs text-gray-500 mb-2">Original</div>
+                  <div className="border rounded-lg p-3 bg-white flex items-center justify-center shadow-sm h-64">
+                    {previewUrl ? (
+                      <img src={previewUrl} className="max-h-full max-w-full object-contain" alt="original large" />
+                    ) : (
+                      <span className="text-sm text-gray-400">No original</span>
+                    )}
+                  </div>
                 </div>
-                <div className="border rounded-lg p-3 bg-white flex items-center justify-center shadow-sm">
-                  {result.advUrl ? (
-                    <img src={result.advUrl} className="max-h-48" alt="adv large" />
-                  ) : (
-                    <span className="text-sm text-gray-400">No adversarial</span>
-                  )}
+                <div className="text-center">
+                  <div className="text-xs text-gray-500 mb-2">Adversarial</div>
+                  <div className="border rounded-lg p-3 bg-white flex items-center justify-center shadow-sm h-64">
+                    {result.advUrl ? (
+                      <img src={result.advUrl} className="max-h-full max-w-full object-contain" alt="adversarial large" />
+                    ) : (
+                      <span className="text-sm text-gray-400">No adversarial</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
