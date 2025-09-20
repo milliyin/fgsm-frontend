@@ -1,13 +1,5 @@
 "use client"
 import React, { useState, useRef } from 'react';
-// Remove problematic imports - keeping only what's essential
-// import { generateClient } from "aws-amplify/data";
-// import type { Schema } from "@/amplify/data/resource";
-// import { Amplify } from "aws-amplify";
-// import outputs from "@/amplify_outputs.json";
-
-// Amplify.configure(outputs);
-// const client = generateClient<Schema>();
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -71,11 +63,9 @@ export default function Home() {
         body: fd,
       }).catch(fetchError => {
         console.error('Fetch failed:', fetchError);
-        // Check if it's a CORS error
         if (fetchError.message.includes('CORS') || fetchError.message.includes('cross-origin')) {
           throw new Error('CORS error: The API server needs to allow requests from your domain. This is likely a server configuration issue.');
         }
-        // Check if it's a network error
         if (fetchError.message.includes('Failed to fetch') || fetchError.message.includes('NetworkError')) {
           throw new Error('Network error: Cannot reach the API server. Check if the server is running and the URL is correct.');
         }
@@ -94,7 +84,6 @@ export default function Home() {
       const payload = await res.json();
       console.log('Success response:', payload);
       
-      // adversarial_image_base64 is returned as a PNG base64 string
       const advB64 = payload.adversarial_image_base64;
       const advUrl = advB64 ? `data:image/png;base64,${advB64}` : null;
 
@@ -121,7 +110,6 @@ export default function Home() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* File Upload */}
           <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-2">Image (PNG / JPEG)</label>
             <input
@@ -140,7 +128,6 @@ export default function Home() {
             )}
           </div>
 
-          {/* Epsilon */}
           <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700 mb-2">Epsilon</label>
             <input
@@ -188,12 +175,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* API Status */}
         <div className="mb-6 text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
           API base: <code className="bg-gray-200 px-1 py-0.5 rounded font-mono">{API_BASE}</code>
         </div>
 
-        {/* Error */}
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
             <div className="font-medium">Error:</div>
@@ -201,12 +186,10 @@ export default function Home() {
           </div>
         )}
 
-        {/* Results */}
         {result && (
           <div className="mt-6">
             <h2 className="text-lg font-semibold mb-4 text-gray-800">Results</h2>
             <div className="flex flex-col md:flex-row gap-6">
-              {/* Original */}
               <div className="flex-1">
                 <div className="text-sm text-gray-600 mb-2">Original</div>
                 <div className="border rounded-xl p-4 bg-gray-50 shadow-sm">
@@ -227,7 +210,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Adversarial */}
               <div className="flex-1">
                 <div className="text-sm text-gray-600 mb-2">Adversarial</div>
                 <div className="border rounded-xl p-4 bg-gray-50 shadow-sm">
@@ -248,7 +230,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Attack result */}
               <div className="md:w-48 md:flex-shrink-0">
                 <div className="text-sm text-gray-600 mb-2">Attack</div>
                 <div className="border rounded-xl p-4 bg-gray-50 text-center shadow-sm">
@@ -260,7 +241,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Side by side */}
             <div className="mt-8">
               <h3 className="text-sm text-gray-600 mb-3">Side-by-side Comparison</h3>
               <div className="grid grid-cols-2 gap-4">
