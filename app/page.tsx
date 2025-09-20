@@ -10,7 +10,7 @@ export default function App() {
   const [result, setResult] = useState<any | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const API_BASE = 'https://7kvo5iyubygklabz2qprq7bsgy0pknrh.lambda-url.eu-north-1.on.aws';
+  const API_BASE = 'https://c7erwbv7hsgrdy4yd6q7pblmh40thlde.lambda-url.eu-north-1.on.aws';
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     setError(null);
