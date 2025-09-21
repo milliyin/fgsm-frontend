@@ -91,384 +91,858 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-40 left-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-      </div>
-
-      <div className="relative z-10 flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-7xl">
-          {/* Header Section */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
-                FGSM Attack Demo
-              </h1>
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 25%, #3b82f6 50%, #ffffff 100%)',
+      padding: '2rem',
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    }}>
+      <div style={{
+        maxWidth: '1400px',
+        margin: '0 auto'
+      }}>
+        {/* Header */}
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '3rem'
+        }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '1rem',
+            marginBottom: '1.5rem'
+          }}>
+            <div style={{
+              width: '48px',
+              height: '48px',
+              background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
+            }}>
+              <span style={{ color: 'white', fontSize: '24px' }}>⚡</span>
             </div>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              Explore adversarial attacks on MNIST handwritten digits using the Fast Gradient Sign Method
-            </p>
+            <h1 style={{
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontWeight: '800',
+              background: 'linear-gradient(135deg, #8b5cf6, #6366f1, #3b82f6)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: '0',
+              lineHeight: '1.1'
+            }}>
+              FGSM Attack Demo
+            </h1>
           </div>
+          <p style={{
+            fontSize: '1.25rem',
+            color: 'rgb(75, 85, 99)',
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: '1.6'
+          }}>
+            Explore adversarial attacks on MNIST handwritten digits using the Fast Gradient Sign Method
+          </p>
+        </div>
 
-          {/* Main Content Card */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 sm:p-12">
-            {/* Upload and Controls Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-              {/* File Upload Section */}
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-lg font-semibold text-gray-700 mb-4">
-                    📁 Upload Your Image
-                  </label>
-                  <div className="relative">
-                    <input
-                      ref={fileInputRef}
-                      onChange={onFileChange}
-                      type="file"
-                      accept="image/png, image/jpeg"
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                    />
-                    <div className="border-2 border-dashed border-purple-300 rounded-2xl p-8 text-center hover:border-purple-400 hover:bg-purple-50/50 transition-all duration-300">
-                      <div className="text-4xl mb-4">📷</div>
-                      <div className="text-lg font-medium text-gray-700">
-                        Drop your image here or click to browse
-                      </div>
-                      <div className="text-sm text-gray-500 mt-2">
-                        PNG or JPEG format
-                      </div>
+        {/* Main Content Card */}
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.85)',
+          backdropFilter: 'blur(20px)',
+          borderRadius: '24px',
+          padding: 'clamp(2rem, 5vw, 4rem)',
+          boxShadow: '0 20px 60px rgba(139, 92, 246, 0.15)',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
+        }}>
+          {/* Upload and Controls */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth > 1024 ? '1fr 1fr' : '1fr',
+            gap: '3rem',
+            marginBottom: '3rem'
+          }}>
+            {/* Upload Section */}
+            <div>
+              <label style={{
+                display: 'block',
+                fontSize: '1.125rem',
+                fontWeight: '600',
+                color: 'rgb(55, 65, 81)',
+                marginBottom: '1rem'
+              }}>
+                📁 Upload Your Image
+              </label>
+              
+              <div style={{ position: 'relative' }}>
+                <input
+                  ref={fileInputRef}
+                  onChange={onFileChange}
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  style={{
+                    position: 'absolute',
+                    inset: '0',
+                    width: '100%',
+                    height: '100%',
+                    opacity: '0',
+                    cursor: 'pointer',
+                    zIndex: '10'
+                  }}
+                />
+                <div style={{
+                  border: '2px dashed rgba(139, 92, 246, 0.4)',
+                  borderRadius: '16px',
+                  padding: '3rem 2rem',
+                  textAlign: 'center',
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.02) 0%, rgba(99, 102, 241, 0.02) 100%)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}>
+                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📷</div>
+                  <div style={{
+                    fontSize: '1.125rem',
+                    fontWeight: '500',
+                    color: 'rgb(55, 65, 81)',
+                    marginBottom: '0.5rem'
+                  }}>
+                    Drop your image here or click to browse
+                  </div>
+                  <div style={{
+                    fontSize: '0.875rem',
+                    color: 'rgb(107, 114, 128)'
+                  }}>
+                    PNG or JPEG format
+                  </div>
+                </div>
+              </div>
+
+              {previewUrl && (
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%)',
+                  borderRadius: '16px',
+                  padding: '1.5rem',
+                  marginTop: '1.5rem'
+                }}>
+                  <h3 style={{
+                    fontSize: '1.125rem',
+                    fontWeight: '600',
+                    color: 'rgb(55, 65, 81)',
+                    marginBottom: '1rem'
+                  }}>
+                    📋 Original Image
+                  </h3>
+                  <div style={{
+                    background: 'white',
+                    borderRadius: '12px',
+                    padding: '1rem',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+                  }}>
+                    <div style={{
+                      width: '200px',
+                      height: '200px',
+                      margin: '0 auto',
+                      border: '2px solid rgba(229, 231, 235, 0.5)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden'
+                    }}>
+                      <img 
+                        src={previewUrl} 
+                        alt="preview" 
+                        style={{
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          objectFit: 'contain'
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
+              )}
+            </div>
 
-                {previewUrl && (
-                  <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-6">
-                    <h3 className="text-lg font-semibold text-gray-700 mb-4">📋 Original Image</h3>
-                    <div className="bg-white rounded-xl p-4 shadow-inner">
-                      <div className="w-48 h-48 mx-auto border-2 border-gray-200 rounded-xl flex items-center justify-center overflow-hidden">
-                        <img 
-                          src={previewUrl} 
-                          alt="preview" 
-                          className="max-w-full max-h-full object-contain"
-                        />
-                      </div>
-                    </div>
+            {/* Controls Section */}
+            <div>
+              <label style={{
+                display: 'block',
+                fontSize: '1.125rem',
+                fontWeight: '600',
+                color: 'rgb(55, 65, 81)',
+                marginBottom: '1rem'
+              }}>
+                ⚡ Attack Parameters
+              </label>
+              
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%)',
+                borderRadius: '16px',
+                padding: '2rem'
+              }}>
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '1rem'
+                  }}>
+                    <span style={{
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      color: 'rgb(75, 85, 99)'
+                    }}>
+                      Epsilon Value
+                    </span>
+                    <span style={{
+                      fontSize: '0.875rem',
+                      fontFamily: 'monospace',
+                      background: 'white',
+                      padding: '0.25rem 0.75rem',
+                      borderRadius: '20px',
+                      border: '1px solid rgba(229, 231, 235, 0.8)'
+                    }}>
+                      {epsilon.toFixed(3)}
+                    </span>
                   </div>
-                )}
-              </div>
-
-              {/* Controls Section */}
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-lg font-semibold text-gray-700 mb-4">
-                    ⚡ Attack Parameters
-                  </label>
                   
-                  <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 space-y-6">
-                    <div>
-                      <div className="flex justify-between items-center mb-3">
-                        <span className="text-sm font-medium text-gray-700">Epsilon Value</span>
-                        <span className="text-sm font-mono bg-white px-3 py-1 rounded-full border">
-                          {epsilon.toFixed(3)}
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={1}
-                        step={0.001}
-                        value={epsilon}
-                        onChange={(e) => setEpsilon(Number(e.target.value))}
-                        className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                      />
-                      <div className="flex justify-between text-xs text-gray-500 mt-2">
-                        <span>0.000</span>
-                        <span>0.500</span>
-                        <span>1.000</span>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3">
-                      <input
-                        type="number"
-                        step={0.001}
-                        min={0}
-                        max={1}
-                        value={epsilon}
-                        onChange={(e) => {
-                          let v = Number(e.target.value);
-                          if (isNaN(v)) v = 0;
-                          if (v < 0) v = 0;
-                          if (v > 1) v = 1;
-                          setEpsilon(v);
-                        }}
-                        className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-400 focus:outline-none transition-colors"
-                        placeholder="0.100"
-                      />
-                      <button
-                        onClick={reset}
-                        className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors font-medium"
-                      >
-                        🔄 Reset
-                      </button>
-                    </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.001}
+                    value={epsilon}
+                    onChange={(e) => setEpsilon(Number(e.target.value))}
+                    style={{
+                      width: '100%',
+                      height: '8px',
+                      borderRadius: '4px',
+                      background: 'linear-gradient(90deg, rgba(139, 92, 246, 0.2) 0%, rgba(99, 102, 241, 0.3) 50%, rgba(59, 130, 246, 0.2) 100%)',
+                      outline: 'none',
+                      appearance: 'none',
+                      cursor: 'pointer',
+                      margin: '1rem 0'
+                    }}
+                  />
+                  
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '0.75rem',
+                    color: 'rgb(107, 114, 128)',
+                    marginTop: '0.5rem'
+                  }}>
+                    <span>0.000</span>
+                    <span>0.500</span>
+                    <span>1.000</span>
                   </div>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  marginBottom: '1.5rem'
+                }}>
+                  <input
+                    type="number"
+                    step={0.001}
+                    min={0}
+                    max={1}
+                    value={epsilon}
+                    onChange={(e) => {
+                      let v = Number(e.target.value);
+                      if (isNaN(v)) v = 0;
+                      if (v < 0) v = 0;
+                      if (v > 1) v = 1;
+                      setEpsilon(v);
+                    }}
+                    style={{
+                      flex: '1',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '12px',
+                      border: '2px solid rgba(229, 231, 235, 0.8)',
+                      fontSize: '1rem',
+                      transition: 'all 0.3s ease',
+                      background: 'white'
+                    }}
+                    placeholder="0.100"
+                  />
+                  <button
+                    onClick={reset}
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      background: 'rgba(107, 114, 128, 0.1)',
+                      color: 'rgb(75, 85, 99)',
+                      borderRadius: '12px',
+                      transition: 'all 0.3s ease',
+                      fontWeight: '500',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    🔄 Reset
+                  </button>
                 </div>
 
                 <button
                   onClick={runAttack}
                   disabled={loading || !file}
-                  className={`w-full py-4 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${
-                    loading || !file
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg hover:shadow-xl'
-                  }`}
+                  style={{
+                    width: '100%',
+                    padding: '1rem 2rem',
+                    borderRadius: '16px',
+                    fontWeight: '600',
+                    fontSize: '1.125rem',
+                    border: 'none',
+                    cursor: loading || !file ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s ease',
+                    background: loading || !file ? 
+                      'rgba(156, 163, 175, 0.5)' : 
+                      'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                    color: loading || !file ? 'rgba(107, 114, 128, 0.7)' : 'white',
+                    boxShadow: loading || !file ? 
+                      'none' : 
+                      '0 10px 30px rgba(139, 92, 246, 0.3)',
+                    opacity: loading || !file ? '0.6' : '1'
+                  }}
                 >
                   {loading ? (
-                    <div className="flex items-center justify-center gap-3">
-                      <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent"></div>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.75rem'
+                    }}>
+                      <div style={{
+                        border: '2px solid transparent',
+                        borderTop: '2px solid currentColor',
+                        borderRadius: '50%',
+                        width: '1.5rem',
+                        height: '1.5rem',
+                        animation: 'spin 1s linear infinite'
+                      }}></div>
                       Running Attack...
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center gap-2">
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem'
+                    }}>
                       ⚡ Launch FGSM Attack
                     </div>
                   )}
                 </button>
               </div>
             </div>
+          </div>
 
-            {/* API Info */}
-            <div className="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-200">
-              <div className="text-sm text-gray-600">
-                🔗 API Endpoint: <code className="bg-gray-200 px-2 py-1 rounded font-mono text-xs">{API_BASE}</code>
+          {/* API Info */}
+          <div style={{
+            background: 'rgba(243, 244, 246, 0.8)',
+            border: '1px solid rgba(209, 213, 219, 0.8)',
+            borderRadius: '12px',
+            padding: '1rem',
+            fontSize: '0.875rem',
+            color: 'rgb(75, 85, 99)',
+            marginBottom: '2rem'
+          }}>
+            <div>
+              🔗 API Endpoint: <code style={{
+                background: 'rgba(229, 231, 235, 0.8)',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '4px',
+                fontFamily: 'monospace',
+                fontSize: '0.75rem'
+              }}>{API_BASE}</code>
+            </div>
+          </div>
+
+          {/* Error Display */}
+          {error && (
+            <div style={{
+              background: 'rgba(254, 242, 242, 0.9)',
+              border: '2px solid rgba(252, 165, 165, 0.8)',
+              color: 'rgb(185, 28, 28)',
+              borderRadius: '16px',
+              padding: '1.5rem',
+              marginBottom: '2rem'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ fontSize: '1.5rem' }}>❌</span>
+                <div style={{
+                  fontWeight: '600',
+                  fontSize: '1.125rem'
+                }}>
+                  Error Occurred
+                </div>
+              </div>
+              <div style={{ marginLeft: '2.75rem', fontSize: '0.875rem' }}>
+                {error}
               </div>
             </div>
+          )}
 
-            {/* Error Display */}
-            {error && (
-              <div className="mb-8 p-6 bg-red-50 border-2 border-red-200 text-red-700 rounded-2xl">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl">❌</span>
-                  <div className="font-semibold text-lg">Error Occurred</div>
+          {/* Results Section */}
+          {result && (
+            <div style={{ marginTop: '3rem' }}>
+              <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                <h2 style={{
+                  fontSize: '2rem',
+                  fontWeight: '700',
+                  color: 'rgb(55, 65, 81)',
+                  marginBottom: '1rem'
+                }}>
+                  🎯 Attack Results
+                </h2>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '30px',
+                  fontSize: '1.125rem',
+                  fontWeight: '600',
+                  border: '2px solid',
+                  background: result.success ? 
+                    'rgba(240, 253, 244, 0.9)' : 
+                    'rgba(254, 242, 242, 0.9)',
+                  borderColor: result.success ? 
+                    'rgba(34, 197, 94, 0.6)' : 
+                    'rgba(239, 68, 68, 0.6)',
+                  color: result.success ? 
+                    'rgb(22, 101, 52)' : 
+                    'rgb(185, 28, 28)'
+                }}>
+                  {result.success ? '✅ Attack Successful' : '❌ Attack Failed'}
                 </div>
-                <div className="ml-11 text-sm">{error}</div>
               </div>
-            )}
 
-            {/* Results Section */}
-            {result && (
-              <div className="space-y-8">
-                <div className="text-center">
-                  <h2 className="text-3xl font-bold text-gray-800 mb-2">🎯 Attack Results</h2>
-                  <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-lg font-bold ${
-                    result.success 
-                      ? 'bg-green-100 text-green-800 border-2 border-green-300' 
-                      : 'bg-red-100 text-red-800 border-2 border-red-300'
-                  }`}>
-                    {result.success ? '✅ Attack Successful' : '❌ Attack Failed'}
+              {/* Detailed Results */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+                gap: '2rem',
+                marginBottom: '2rem'
+              }}>
+                {/* Original Results */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(239, 246, 255, 0.8) 0%, rgba(238, 242, 255, 0.8) 100%)',
+                  border: '2px solid rgba(59, 130, 246, 0.2)',
+                  borderRadius: '16px',
+                  padding: '1.5rem'
+                }}>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: '600',
+                    color: 'rgb(55, 65, 81)',
+                    marginBottom: '1.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    📊 Original Prediction
+                  </h3>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.75rem',
+                    background: 'white',
+                    borderRadius: '8px',
+                    marginBottom: '0.75rem',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                  }}>
+                    <span style={{
+                      fontWeight: '500',
+                      color: 'rgb(75, 85, 99)'
+                    }}>
+                      Predicted Digit:
+                    </span>
+                    <span style={{
+                      fontSize: '1.5rem',
+                      fontWeight: '700',
+                      color: 'rgb(59, 130, 246)'
+                    }}>
+                      {result.original?.class ?? "—"}
+                    </span>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.75rem',
+                    background: 'white',
+                    borderRadius: '8px',
+                    marginBottom: '0.75rem',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                  }}>
+                    <span style={{
+                      fontWeight: '500',
+                      color: 'rgb(75, 85, 99)'
+                    }}>
+                      Confidence:
+                    </span>
+                    <span style={{
+                      fontFamily: 'monospace',
+                      fontSize: '0.875rem'
+                    }}>
+                      {(result.original?.confidence ?? 0).toFixed(4)}
+                    </span>
                   </div>
                 </div>
 
-                {/* Detailed Results */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Original Results */}
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                      📊 Original Prediction
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                        <span className="font-medium">Predicted Digit:</span>
-                        <span className="text-2xl font-bold text-blue-600">{result.original?.class ?? "—"}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                        <span className="font-medium">Class Index:</span>
-                        <span className="font-mono text-lg">{result.original?.class_index ?? "—"}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                        <span className="font-medium">Confidence:</span>
-                        <div className="flex items-center gap-2">
-                          <div className="w-24 bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-blue-500 h-2 rounded-full transition-all duration-500"
-                              style={{ width: `${(result.original?.confidence ?? 0) * 100}%` }}
-                            ></div>
-                          </div>
-                          <span className="font-mono text-sm">{(result.original?.confidence ?? 0).toFixed(4)}</span>
-                        </div>
-                      </div>
-                    </div>
+                {/* Adversarial Results */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(254, 242, 242, 0.8) 0%, rgba(253, 242, 248, 0.8) 100%)',
+                  border: '2px solid rgba(239, 68, 68, 0.2)',
+                  borderRadius: '16px',
+                  padding: '1.5rem'
+                }}>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: '600',
+                    color: 'rgb(55, 65, 81)',
+                    marginBottom: '1.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    🎭 Adversarial Prediction
+                  </h3>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.75rem',
+                    background: 'white',
+                    borderRadius: '8px',
+                    marginBottom: '0.75rem',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                  }}>
+                    <span style={{
+                      fontWeight: '500',
+                      color: 'rgb(75, 85, 99)'
+                    }}>
+                      Predicted Digit:
+                    </span>
+                    <span style={{
+                      fontSize: '1.5rem',
+                      fontWeight: '700',
+                      color: 'rgb(239, 68, 68)'
+                    }}>
+                      {result.adversarial?.class ?? "—"}
+                    </span>
                   </div>
-
-                  {/* Adversarial Results */}
-                  <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-6 border-2 border-red-200">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                      🎭 Adversarial Prediction
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                        <span className="font-medium">Predicted Digit:</span>
-                        <span className="text-2xl font-bold text-red-600">{result.adversarial?.class ?? "—"}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                        <span className="font-medium">Class Index:</span>
-                        <span className="font-mono text-lg">{result.adversarial?.class_index ?? "—"}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                        <span className="font-medium">Confidence:</span>
-                        <div className="flex items-center gap-2">
-                          <div className="w-24 bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-red-500 h-2 rounded-full transition-all duration-500"
-                              style={{ width: `${(result.adversarial?.confidence ?? 0) * 100}%` }}
-                            ></div>
-                          </div>
-                          <span className="font-mono text-sm">{(result.adversarial?.confidence ?? 0).toFixed(4)}</span>
-                        </div>
-                      </div>
-                    </div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.75rem',
+                    background: 'white',
+                    borderRadius: '8px',
+                    marginBottom: '0.75rem',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                  }}>
+                    <span style={{
+                      fontWeight: '500',
+                      color: 'rgb(75, 85, 99)'
+                    }}>
+                      Confidence:
+                    </span>
+                    <span style={{
+                      fontFamily: 'monospace',
+                      fontSize: '0.875rem'
+                    }}>
+                      {(result.adversarial?.confidence ?? 0).toFixed(4)}
+                    </span>
                   </div>
                 </div>
+              </div>
 
-                {/* Side-by-Side Image Comparison */}
-                <div className="bg-gradient-to-r from-purple-50 via-white to-indigo-50 rounded-2xl p-8 border-2 border-purple-200">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+              {/* Side-by-Side Image Comparison */}
+              {(previewUrl || result.advUrl) && (
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(255, 255, 255, 0.8) 25%, rgba(99, 102, 241, 0.05) 100%)',
+                  border: '2px solid rgba(139, 92, 246, 0.2)',
+                  borderRadius: '20px',
+                  padding: '2rem',
+                  marginTop: '2rem'
+                }}>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: '700',
+                    color: 'rgb(55, 65, 81)',
+                    textAlign: 'center',
+                    marginBottom: '2rem'
+                  }}>
                     🖼️ Visual Comparison
                   </h3>
                   
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: window.innerWidth > 1024 ? '1fr 1fr' : '1fr',
+                    gap: '2rem'
+                  }}>
                     {/* Original Image */}
-                    <div className="text-center space-y-4">
-                      <div className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-full font-semibold inline-block">
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{
+                        background: 'linear-gradient(135deg, #3b82f6, #1e40af)',
+                        color: 'white',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '20px',
+                        fontWeight: '600',
+                        fontSize: '0.875rem',
+                        display: 'inline-block',
+                        marginBottom: '1rem'
+                      }}>
                         Original Image
                       </div>
-                      <div className="relative group">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300"></div>
-                        <div className="relative bg-white rounded-2xl p-6 shadow-lg">
-                          <div className="w-72 h-72 mx-auto border-2 border-gray-200 rounded-xl flex items-center justify-center overflow-hidden bg-gray-50">
-                            {previewUrl ? (
-                              <img 
-                                src={previewUrl} 
-                                className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" 
-                                alt="original large" 
-                              />
-                            ) : (
-                              <div className="text-gray-400 text-center">
-                                <div className="text-4xl mb-2">📷</div>
-                                <span className="text-sm">No original image</span>
-                              </div>
-                            )}
+                      <div style={{
+                        background: 'white',
+                        borderRadius: '16px',
+                        padding: '1.5rem',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                        transition: 'all 0.3s ease'
+                      }}>
+                        <div style={{
+                          width: '18rem',
+                          height: '18rem',
+                          margin: '0 auto',
+                          border: '2px solid rgba(229, 231, 235, 0.5)',
+                          borderRadius: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'rgba(249, 250, 251, 0.5)',
+                          overflow: 'hidden'
+                        }}>
+                          {previewUrl ? (
+                            <img 
+                              src={previewUrl} 
+                              style={{
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                                objectFit: 'contain'
+                              }}
+                              alt="original large" 
+                            />
+                          ) : (
+                            <div style={{
+                              color: 'rgb(156, 163, 175)',
+                              textAlign: 'center'
+                            }}>
+                              <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>📷</div>
+                              <span style={{ fontSize: '0.875rem' }}>No original image</span>
+                            </div>
+                          )}
+                        </div>
+                        <div style={{
+                          marginTop: '1rem',
+                          textAlign: 'center'
+                        }}>
+                          <div style={{
+                            fontSize: '1.25rem',
+                            fontWeight: '700',
+                            color: 'rgb(59, 130, 246)',
+                            marginBottom: '0.25rem'
+                          }}>
+                            Prediction: {result.original?.class ?? "—"}
                           </div>
-                          <div className="mt-4 text-center">
-                            <div className="text-lg font-bold text-blue-600">
-                              Prediction: {result.original?.class ?? "—"}
-                            </div>
-                            <div className="text-sm text-gray-600">
-                              Confidence: {(result.original?.confidence ?? 0).toFixed(4)}
-                            </div>
+                          <div style={{
+                            fontSize: '0.875rem',
+                            color: 'rgb(75, 85, 99)'
+                          }}>
+                            Confidence: {(result.original?.confidence ?? 0).toFixed(4)}
                           </div>
                         </div>
                       </div>
                     </div>
 
                     {/* Adversarial Image */}
-                    <div className="text-center space-y-4">
-                      <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-full font-semibold inline-block">
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{
+                        background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                        color: 'white',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '20px',
+                        fontWeight: '600',
+                        fontSize: '0.875rem',
+                        display: 'inline-block',
+                        marginBottom: '1rem'
+                      }}>
                         Adversarial Image
                       </div>
-                      <div className="relative group">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-red-400 to-pink-400 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300"></div>
-                        <div className="relative bg-white rounded-2xl p-6 shadow-lg">
-                          <div className="w-72 h-72 mx-auto border-2 border-gray-200 rounded-xl flex items-center justify-center overflow-hidden bg-gray-50">
-                            {result.advUrl ? (
-                              <img 
-                                src={result.advUrl} 
-                                className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" 
-                                alt="adversarial large" 
-                              />
-                            ) : (
-                              <div className="text-gray-400 text-center">
-                                <div className="text-4xl mb-2">❓</div>
-                                <span className="text-sm">No adversarial image</span>
-                              </div>
-                            )}
+                      <div style={{
+                        background: 'white',
+                        borderRadius: '16px',
+                        padding: '1.5rem',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                        transition: 'all 0.3s ease'
+                      }}>
+                        <div style={{
+                          width: '18rem',
+                          height: '18rem',
+                          margin: '0 auto',
+                          border: '2px solid rgba(229, 231, 235, 0.5)',
+                          borderRadius: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'rgba(249, 250, 251, 0.5)',
+                          overflow: 'hidden'
+                        }}>
+                          {result.advUrl ? (
+                            <img 
+                              src={result.advUrl} 
+                              style={{
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                                objectFit: 'contain'
+                              }}
+                              alt="adversarial large" 
+                            />
+                          ) : (
+                            <div style={{
+                              color: 'rgb(156, 163, 175)',
+                              textAlign: 'center'
+                            }}>
+                              <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>❓</div>
+                              <span style={{ fontSize: '0.875rem' }}>No adversarial image</span>
+                            </div>
+                          )}
+                        </div>
+                        <div style={{
+                          marginTop: '1rem',
+                          textAlign: 'center'
+                        }}>
+                          <div style={{
+                            fontSize: '1.25rem',
+                            fontWeight: '700',
+                            color: 'rgb(239, 68, 68)',
+                            marginBottom: '0.25rem'
+                          }}>
+                            Prediction: {result.adversarial?.class ?? "—"}
                           </div>
-                          <div className="mt-4 text-center">
-                            <div className="text-lg font-bold text-red-600">
-                              Prediction: {result.adversarial?.class ?? "—"}
-                            </div>
-                            <div className="text-sm text-gray-600">
-                              Confidence: {(result.adversarial?.confidence ?? 0).toFixed(4)}
-                            </div>
+                          <div style={{
+                            fontSize: '0.875rem',
+                            color: 'rgb(75, 85, 99)'
+                          }}>
+                            Confidence: {(result.adversarial?.confidence ?? 0).toFixed(4)}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Difference Indicator */}
-                  <div className="mt-8 text-center">
-                    <div className="inline-flex items-center gap-4 px-6 py-3 bg-white rounded-full border-2 border-gray-200 shadow-sm">
-                      <span className="text-gray-700 font-medium">Epsilon Used:</span>
-                      <span className="font-mono text-lg text-purple-600 font-bold">{epsilon.toFixed(3)}</span>
+                  {/* Epsilon Display */}
+                  <div style={{
+                    textAlign: 'center',
+                    marginTop: '2rem'
+                  }}>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      padding: '0.75rem 1.5rem',
+                      background: 'white',
+                      border: '2px solid rgba(229, 231, 235, 0.8)',
+                      borderRadius: '30px',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
+                    }}>
+                      <span style={{
+                        color: 'rgb(75, 85, 99)',
+                        fontWeight: '500'
+                      }}>
+                        Epsilon Used:
+                      </span>
+                      <span style={{
+                        fontFamily: 'monospace',
+                        fontSize: '1.125rem',
+                        fontWeight: '700',
+                        color: 'rgb(139, 92, 246)'
+                      }}>
+                        {epsilon.toFixed(3)}
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
+      {/* CSS Animation Styles */}
       <style jsx>{`
-        .animate-blob {
-          animation: blob 7s infinite;
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .slider::-webkit-slider-thumb {
+        
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
           appearance: none;
-          height: 20px;
-          width: 20px;
+          height: 24px;
+          width: 24px;
           border-radius: 50%;
-          background: linear-gradient(45deg, #8b5cf6, #3b82f6);
+          background: linear-gradient(45deg, #8b5cf6, #6366f1);
           cursor: pointer;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          border: 3px solid white;
+          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+          transition: all 0.3s ease;
         }
-        .slider::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+          transform: scale(1.1);
+          box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+          height: 24px;
+          width: 24px;
           border-radius: 50%;
-          background: linear-gradient(45deg, #8b5cf6, #3b82f6);
+          background: linear-gradient(45deg, #8b5cf6, #6366f1);
           cursor: pointer;
-          border: none;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          border: 3px solid white;
+          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+          transition: all 0.3s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+          }
+          
+          div[style*="width: 18rem"] {
+            width: 14rem !important;
+            height: 14rem !important;
+          }
+          
+          h1[style*="font-size: clamp"] {
+            font-size: 2.5rem !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          div[style*="padding: clamp"] {
+            padding: 1rem !important;
+          }
+          
+          div[style*="width: 14rem"] {
+            width: 12rem !important;
+            height: 12rem !important;
+          }
         }
       `}</style>
     </div>
