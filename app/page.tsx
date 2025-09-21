@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -8,9 +8,29 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<any | null>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(1200);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const API_BASE = 'https://c7erwbv7hsgrdy4yd6q7pblmh40thlde.lambda-url.eu-north-1.on.aws';
+
+  // Handle window resize for responsive design
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    // Set initial width
+    if (typeof window !== 'undefined') {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
+    }
+    
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     setError(null);
@@ -90,16 +110,60 @@ export default function Home() {
     }
   }
 
+  const isMobile = windowWidth <= 768;
+  const isTablet = windowWidth <= 1024;
+
   return (
     <div style={{
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 25%, #3b82f6 50%, #ffffff 100%)',
-      padding: '2rem',
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+      padding: isMobile ? '1rem' : '2rem',
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
+      {/* Animated background blobs */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-10%',
+          width: '300px',
+          height: '300px',
+          background: 'linear-gradient(45deg, #a855f7, #6366f1)',
+          borderRadius: '50%',
+          mixBlendMode: 'multiply',
+          filter: 'blur(40px)',
+          opacity: 0.7,
+          zIndex: 0,
+          pointerEvents: 'none',
+          animation: 'blob 7s infinite'
+        }}
+      />
+      <div 
+        style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-10%',
+          width: '350px',
+          height: '350px',
+          background: 'linear-gradient(45deg, #3b82f6, #8b5cf6)',
+          borderRadius: '50%',
+          mixBlendMode: 'multiply',
+          filter: 'blur(40px)',
+          opacity: 0.7,
+          zIndex: 0,
+          pointerEvents: 'none',
+          animation: 'blob 7s infinite',
+          animationDelay: '2s'
+        }}
+      />
+
       <div style={{
         maxWidth: '1400px',
-        margin: '0 auto'
+        margin: '0 auto',
+        position: 'relative',
+        zIndex: 10
       }}>
         {/* Header */}
         <div style={{
@@ -125,7 +189,7 @@ export default function Home() {
               <span style={{ color: 'white', fontSize: '24px' }}>⚡</span>
             </div>
             <h1 style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontSize: isMobile ? '2.5rem' : '4rem',
               fontWeight: '800',
               background: 'linear-gradient(135deg, #8b5cf6, #6366f1, #3b82f6)',
               WebkitBackgroundClip: 'text',
@@ -138,7 +202,7 @@ export default function Home() {
             </h1>
           </div>
           <p style={{
-            fontSize: '1.25rem',
+            fontSize: isMobile ? '1rem' : '1.25rem',
             color: 'rgb(75, 85, 99)',
             maxWidth: '600px',
             margin: '0 auto',
@@ -153,14 +217,15 @@ export default function Home() {
           background: 'rgba(255, 255, 255, 0.85)',
           backdropFilter: 'blur(20px)',
           borderRadius: '24px',
-          padding: 'clamp(2rem, 5vw, 4rem)',
+          padding: isMobile ? '1.5rem' : '3rem',
           boxShadow: '0 20px 60px rgba(139, 92, 246, 0.15)',
-          border: '1px solid rgba(255, 255, 255, 0.2)'
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          transition: 'all 0.3s ease'
         }}>
           {/* Upload and Controls */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: window.innerWidth > 1024 ? '1fr 1fr' : '1fr',
+            gridTemplateColumns: isTablet ? '1fr' : '1fr 1fr',
             gap: '3rem',
             marginBottom: '3rem'
           }}>
@@ -195,7 +260,7 @@ export default function Home() {
                 <div style={{
                   border: '2px dashed rgba(139, 92, 246, 0.4)',
                   borderRadius: '16px',
-                  padding: '3rem 2rem',
+                  padding: isMobile ? '2rem 1rem' : '3rem 2rem',
                   textAlign: 'center',
                   background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.02) 0%, rgba(99, 102, 241, 0.02) 100%)',
                   transition: 'all 0.3s ease',
@@ -241,8 +306,8 @@ export default function Home() {
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
                   }}>
                     <div style={{
-                      width: '200px',
-                      height: '200px',
+                      width: isMobile ? '150px' : '200px',
+                      height: isMobile ? '150px' : '200px',
                       margin: '0 auto',
                       border: '2px solid rgba(229, 231, 235, 0.5)',
                       borderRadius: '12px',
@@ -366,7 +431,8 @@ export default function Home() {
                       border: '2px solid rgba(229, 231, 235, 0.8)',
                       fontSize: '1rem',
                       transition: 'all 0.3s ease',
-                      background: 'white'
+                      background: 'white',
+                      outline: 'none'
                     }}
                     placeholder="0.100"
                   />
@@ -381,6 +447,12 @@ export default function Home() {
                       fontWeight: '500',
                       border: 'none',
                       cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
                     }}
                   >
                     🔄 Reset
@@ -408,6 +480,16 @@ export default function Home() {
                       '0 10px 30px rgba(139, 92, 246, 0.3)',
                     opacity: loading || !file ? '0.6' : '1'
                   }}
+                  onMouseEnter={(e) => {
+                    if (!loading && file) {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!loading && file) {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }
+                  }}
                 >
                   {loading ? (
                     <div style={{
@@ -423,7 +505,7 @@ export default function Home() {
                         width: '1.5rem',
                         height: '1.5rem',
                         animation: 'spin 1s linear infinite'
-                      }}></div>
+                      }} />
                       Running Attack...
                     </div>
                   ) : (
@@ -497,7 +579,7 @@ export default function Home() {
             <div style={{ marginTop: '3rem' }}>
               <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                 <h2 style={{
-                  fontSize: '2rem',
+                  fontSize: isMobile ? '1.5rem' : '2rem',
                   fontWeight: '700',
                   color: 'rgb(55, 65, 81)',
                   marginBottom: '1rem'
@@ -510,7 +592,7 @@ export default function Home() {
                   gap: '0.5rem',
                   padding: '0.75rem 1.5rem',
                   borderRadius: '30px',
-                  fontSize: '1.125rem',
+                  fontSize: isMobile ? '1rem' : '1.125rem',
                   fontWeight: '600',
                   border: '2px solid',
                   background: result.success ? 
@@ -530,7 +612,7 @@ export default function Home() {
               {/* Detailed Results */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+                gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
                 gap: '2rem',
                 marginBottom: '2rem'
               }}>
@@ -675,11 +757,11 @@ export default function Home() {
                   background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(255, 255, 255, 0.8) 25%, rgba(99, 102, 241, 0.05) 100%)',
                   border: '2px solid rgba(139, 92, 246, 0.2)',
                   borderRadius: '20px',
-                  padding: '2rem',
+                  padding: isMobile ? '1.5rem' : '2rem',
                   marginTop: '2rem'
                 }}>
                   <h3 style={{
-                    fontSize: '1.5rem',
+                    fontSize: isMobile ? '1.25rem' : '1.5rem',
                     fontWeight: '700',
                     color: 'rgb(55, 65, 81)',
                     textAlign: 'center',
@@ -690,7 +772,7 @@ export default function Home() {
                   
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: window.innerWidth > 1024 ? '1fr 1fr' : '1fr',
+                    gridTemplateColumns: isTablet ? '1fr' : '1fr 1fr',
                     gap: '2rem'
                   }}>
                     {/* Original Image */}
@@ -715,8 +797,8 @@ export default function Home() {
                         transition: 'all 0.3s ease'
                       }}>
                         <div style={{
-                          width: '18rem',
-                          height: '18rem',
+                          width: isMobile ? '12rem' : isTablet ? '16rem' : '18rem',
+                          height: isMobile ? '12rem' : isTablet ? '16rem' : '18rem',
                           margin: '0 auto',
                           border: '2px solid rgba(229, 231, 235, 0.5)',
                           borderRadius: '12px',
@@ -790,8 +872,8 @@ export default function Home() {
                         transition: 'all 0.3s ease'
                       }}>
                         <div style={{
-                          width: '18rem',
-                          height: '18rem',
+                          width: isMobile ? '12rem' : isTablet ? '16rem' : '18rem',
+                          height: isMobile ? '12rem' : isTablet ? '16rem' : '18rem',
                           margin: '0 auto',
                           border: '2px solid rgba(229, 231, 235, 0.5)',
                           borderRadius: '12px',
@@ -882,11 +964,18 @@ export default function Home() {
         </div>
       </div>
 
-      {/* CSS Animation Styles */}
+      {/* CSS Animations */}
       <style jsx>{`
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
+        }
+        
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
         }
         
         input[type="range"]::-webkit-slider-thumb {
@@ -908,41 +997,25 @@ export default function Home() {
         }
         
         input[type="range"]::-moz-range-thumb {
-          height: 24px;
-          width: 24px;
+          height: 20px;
+          width: 20px;
           border-radius: 50%;
           background: linear-gradient(45deg, #8b5cf6, #6366f1);
           cursor: pointer;
           border: 3px solid white;
           box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
           transition: all 0.3s ease;
+          border: none;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-          div[style*="grid-template-columns"] {
-            grid-template-columns: 1fr !important;
-          }
-          
-          div[style*="width: 18rem"] {
-            width: 14rem !important;
-            height: 14rem !important;
-          }
-          
-          h1[style*="font-size: clamp"] {
-            font-size: 2.5rem !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          div[style*="padding: clamp"] {
-            padding: 1rem !important;
-          }
-          
-          div[style*="width: 14rem"] {
-            width: 12rem !important;
-            height: 12rem !important;
-          }
+        input[type="range"]::-moz-range-track {
+          background: linear-gradient(90deg, 
+            rgba(139, 92, 246, 0.2) 0%, 
+            rgba(99, 102, 241, 0.3) 50%, 
+            rgba(59, 130, 246, 0.2) 100%);
+          height: 8px;
+          border-radius: 4px;
+          border: none;
         }
       `}</style>
     </div>
